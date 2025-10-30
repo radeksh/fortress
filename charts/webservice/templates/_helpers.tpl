@@ -1,14 +1,14 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "dummy.name" -}}
+{{- define "webservice.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Create a default fully qualified app name.
 */}}
-{{- define "dummy.fullname" -}}
+{{- define "webservice.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -24,16 +24,16 @@ Create a default fully qualified app name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "dummy.chart" -}}
+{{- define "webservice.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "dummy.labels" -}}
-helm.sh/chart: {{ include "dummy.chart" . }}
-{{ include "dummy.selectorLabels" . }}
+{{- define "webservice.labels" -}}
+helm.sh/chart: {{ include "webservice.chart" . }}
+{{ include "webservice.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -43,7 +43,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "dummy.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "dummy.name" . }}
+{{- define "webservice.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "webservice.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

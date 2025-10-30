@@ -1,6 +1,6 @@
 apiVersion: v2
-name: dummy
-description: Dummy application
+name: webservice
+description: Generic web service Helm chart
 type: application
 version: 0.1.0
 appVersion: "1.27-alpine"

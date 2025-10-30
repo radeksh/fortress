@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "dummy.fullname" . }}
+  name: {{ include "webservice.fullname" . }}
   labels:
-    {{- include "dummy.labels" . | nindent 4 }}
+    {{- include "webservice.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "dummy.selectorLabels" . | nindent 6 }}
+      {{- include "webservice.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "dummy.selectorLabels" . | nindent 8 }}
+        {{- include "webservice.selectorLabels" . | nindent 8 }}
     spec:
       containers:
       - name: {{ .Chart.Name }}
