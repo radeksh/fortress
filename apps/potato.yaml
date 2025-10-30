@@ -25,6 +25,7 @@ spec:
       repository: ghcr.io/radeksh/potato
       tag: latest
       pullPolicy: Always
+    containerPort: 8080
     service:
       type: LoadBalancer
       port: 50000
