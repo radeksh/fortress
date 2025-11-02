@@ -10,6 +10,16 @@ service:
   type: ClusterIP
   port: 80
 
+ingress:
+  enabled: false
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  host: ""
+  tls:
+    enabled: true
+    secretName: ""
+
 resources:
   limits:
     cpu: 100m
