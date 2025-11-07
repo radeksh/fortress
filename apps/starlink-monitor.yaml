@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: starlink-monitor
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: starlink-monitor
+  namespace: starlink-monitor
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: ./charts/internal
+      reconcileStrategy: Revision
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 1m
+  values:
+    replicaCount: 1
+    image:
+      repository: ghcr.io/radeksh/starlink-monitor-grpc
+      tag: latest
+      pullPolicy: Always
+    containerPort: 9877
+    service:
+      type: ClusterIP
+      port: 9877
+    ingress:
+      enabled: false
+    resources:
+      limits:
+        cpu: 200m
+        memory: 128Mi
+      requests:
+        cpu: 100m
+        memory: 64Mi
+    env:
+      - name: DISH_IP
+        value: "192.168.100.1"
+      - name: DISH_PORT
+        value: "9200"
+      - name: POLL_INTERVAL
+        value: "2"
+      - name: ALERT_THRESHOLD
+        value: "0.1"
+      - name: HTTP_PORT
+        value: "9877"
+      - name: LOG_LEVEL
+        value: "INFO"
+    probes:
+      liveness:
+        enabled: true
+        httpGet:
+          path: /health
+          port: http
+        initialDelaySeconds: 10
+        periodSeconds: 30
+      readiness:
+        enabled: true
+        httpGet:
+          path: /health
+          port: http
+        initialDelaySeconds: 5
+        periodSeconds: 10
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: starlink-monitor
+  namespace: starlink-monitor
+  labels:
+    app.kubernetes.io/name: starlink-monitor
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: internal
+      app.kubernetes.io/instance: starlink-monitor
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
