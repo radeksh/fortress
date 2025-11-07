@@ -102,19 +102,22 @@ spec:
         namespace: monitoring
       interval: 12h
   values:
-    persistence:
-      enabled: true
-      size: 20Gi
-      storageClassName: ""
-      accessModes: 
-        - ReadWriteOnce
-    resources:
-      limits:
-        cpu: 1000m
-        memory: 2Gi
-      requests:
-        cpu: 500m
-        memory: 1Gi
+    loki:
+      storageConfig:
+        boltdb_shipper:
+          shared_store: filesystem
+        filesystem:
+          directory: /var/loki/chunks
+    ingester:
+      persistence:
+        enabled: true
+        size: 10Gi
+        storageClass: local-path
+    querier:
+      persistence:
+        enabled: true
+        size: 10Gi
+        storageClass: local-path
 
 # Promtail
 ---
