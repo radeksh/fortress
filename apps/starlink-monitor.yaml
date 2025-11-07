@@ -23,7 +23,7 @@ spec:
   values:
     replicaCount: 1
     image:
-      repository: ghcr.io/radeksh/starlink-monitor-grpc
+      repository: ghcr.io/radeksh/starlink-monitor
       tag: latest
       pullPolicy: Always
     containerPort: 9877

@@ -28,13 +28,15 @@ spec:
         {{- end }}
         {{- if .Values.probes.liveness.enabled }}
         livenessProbe:
-          {{- toYaml .Values.probes.liveness.httpGet | nindent 10 }}
+          httpGet:
+            {{- toYaml .Values.probes.liveness.httpGet | nindent 12 }}
           initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
           periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
         {{- end }}
         {{- if .Values.probes.readiness.enabled }}
         readinessProbe:
-          {{- toYaml .Values.probes.readiness.httpGet | nindent 10 }}
+          httpGet:
+            {{- toYaml .Values.probes.readiness.httpGet | nindent 12 }}
           initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
           periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
         {{- end }}
