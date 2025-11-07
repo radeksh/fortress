@@ -34,11 +34,11 @@ spec:
       enabled: false
     resources:
       limits:
-        cpu: 200m
-        memory: 128Mi
+        cpu: 1
+        memory: 256Mi
       requests:
-        cpu: 100m
-        memory: 64Mi
+        cpu: 500m
+        memory: 128Mi
     env:
       - name: DISH_IP
         value: "192.168.100.1"
