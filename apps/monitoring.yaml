@@ -50,6 +50,7 @@ spec:
       prometheusSpec:
         retention: 15d
         serviceMonitorNamespaceSelector: {}
+        serviceMonitorSelectorNilUsesHelmValues: false
         serviceMonitorSelector: {}
         resources:
           requests:
