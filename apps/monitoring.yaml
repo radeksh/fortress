@@ -49,6 +49,8 @@ spec:
     prometheus:
       prometheusSpec:
         retention: 15d
+        serviceMonitorNamespaceSelector: {}
+        serviceMonitorSelector: {}
         resources:
           requests:
             memory: 512Mi
