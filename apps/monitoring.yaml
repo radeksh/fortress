@@ -34,7 +34,7 @@ spec:
   values:
     grafana:
       adminUser: admin
-      adminPassword: initialpassword5
+      adminPassword: admin
       service:
         enabled: true
         type: ClusterIP
@@ -163,14 +163,24 @@ spec:
             HTTP_Port 2020
             Health_Check On
 
+      customParsers: |
+        [MULTILINE_PARSER]
+            Name          python-exception
+            Type          regex
+            Flush_timeout 1000
+            # Match Python stack traces and multi-line errors
+            # Lines that don't start with a timestamp or common log level indicators
+            Rule      "start_state"   "/^(\d{4}-\d{2}-\d{2}|[A-Z][a-z]{2} \d{1,2}|INFO|ERROR|WARNING|DEBUG)/"  "cont"
+            Rule      "cont"          "/^(?!\d{4}-\d{2}-\d{2}|[A-Z][a-z]{2} \d{1,2}|INFO|ERROR|WARNING|DEBUG)/"  "cont"
+
       inputs: |
         [INPUT]
             Name tail
             Path /var/log/containers/*_starlink_*.log
-            multiline.parser docker, cri
+            multiline.parser docker, cri, python-exception
             Tag kube.*
             Mem_Buf_Limit 5MB
-            Skip_Long_Lines On
+            Skip_Long_Lines Off
 
       filters: |
         [FILTER]
